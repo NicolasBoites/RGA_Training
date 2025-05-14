@@ -1,0 +1,24 @@
+<html>
+    <script>
+        const numbers = [3,1,6,3,7,-1];
+
+        const newNumbers = numbers.map((number) => number+2)
+        // console.log(newNumbers);
+
+        const sum = numbers.reduce((prev,el,index) => {
+            console.log(prev,el,index);
+
+            return index%2 !== 0 ? prev+el : prev;
+            
+        })
+        console.log(sum);
+
+        const value = numbers.forEach((el, index, array) => {
+            console.log(el);
+        })
+
+        console.log(value);
+        
+        
+    </script>
+</html>

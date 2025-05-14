@@ -1,0 +1,23 @@
+<html>
+<script>
+    //in this example, both handlers are activated, from inner to outer
+const bodyfn = () => {
+    console.log('ahndler at body level');
+    
+}
+
+const handlerOnDiv = (event) =>{
+    // alert('test')
+    event.stopPropagation() //stop notifying events to paretn elements
+    console.log(event);
+    
+}
+</script>
+
+<body onclick="bodyfn()">
+    <div onclick="handlerOnDiv(event)">
+        <button>Click</button>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,33 @@
+<html>
+<script>
+    const s1 = "UST"; // is stored in the String pool, like cached
+    const s2 = new String("UST"); // will be collected by the garbage collector
+    const s3 = new String("UST");
+
+    console.log(s1 == s2);
+    console.log(s3 == s2);
+    console.log(s3 == s1);
+    s1.length = 40
+
+    // console.log(s1.length);
+
+
+    const reverseString = (s) => {
+        // return s.split('').reverse().join('') // more expensive in memory. create new objects to store function results
+
+        let newString = "";
+        for (let i = s.length - 1; i >= 0; i--) {
+            newString += s[i];
+        }
+
+        return newString;
+    }
+
+    const stringReversed = reverseString(s1);
+    console.log(stringReversed);
+
+
+
+</script>
+
+</html>

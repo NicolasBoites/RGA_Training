@@ -1,0 +1,33 @@
+<html>
+    <script>
+        const o1 = new Object();
+        o1.age = 10
+        o1.limit = 20
+        delete o1.limit;
+
+        console.log(o1);
+
+        const book1 = {
+            title: 'Learn JS',
+            price: 100,
+            authors: [{
+                name: "Rodolfo"
+            },
+        {
+                name: "Nicolas Boites"
+
+        }],
+            borrow: function (){
+                console.log(this.title);
+            },
+            return: function(){
+                console.log(this.price);
+                this.borrow();
+                
+            }
+        }
+
+        book1.return()
+        
+    </script>
+</html>

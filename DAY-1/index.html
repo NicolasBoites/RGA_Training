@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+        const a = 1;
+        var b = 5;
+        const numbers = [1, 2, 3, 11, 5, -1];
+        // numbers.sort((a, b) => {
+        //     return b - a;
+        // });
+
+        const newNumbers = numbers.map((a) => {
+            return a % 2 == 0 ? a + 10 : a;
+        })
+        console.log(numbers);
+        console.log(newNumbers);
+
+        const result = numbers.find(params =>
+            params == 1
+          );
+        console.log(result);
+
+        const myFunction = (event) => { // event handler function
+            console.log(event.target.name);
+            console.log("Clicked");
+            return 120; // any returned values from event handler functions are lost
+
+        }
+    </script>
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="text" onclick="myFunction(event)" name="text1" />
+    <div onclick="myFunction(event)" id="div1">this is a div</div>
+    <button onclick="myFunction(event)" name="button1">Button 1</button>
+    <button onclick="myFunction(event)" name="button2">Button 2</button>
+</body>
+
+</html>

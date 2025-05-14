@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div
+        style="display: flex; flex-direction: column; gap: 20px; width: 500px; border: 1px solid rgba(0,0,0,1); padding: 1rem; border-radius: 1rem;">
+
+        <input type="text" style="border: solid 1px ; outline:none; border-radius: .5rem; height: 1.5rem;">
+        <input type="text" style="border: solid 1px ; outline:none; border-radius: .5rem; height: 1.5rem;">
+
+        <div style="width: 100%; display: flex; justify-content: space-around;">
+            <label for="male" style="cursor: pointer;">
+                <input type="radio" name="radio" id="male">Male
+            </label>
+            <label for="female" style="cursor: pointer;">
+                <input type="radio" name="radio" id="female">Female
+            </label>
+        </div>
+
+        <p id="label"></p>
+        <select name="cars" id="cars" onchange="selectedCar(event)">
+            <option value="">Select a car</option>
+            <option value="volvo">Volvo</option>
+            <option value="saab">Saab</option>
+            <option value="mercedes">Mercedes</option>
+            <option value="audi">Audi</option>
+
+        </select>
+    </div>
+
+    <script>
+        const selectedCar = (e) => {
+            console.log(e.target.value);
+            let label = document.getElementById("label")
+            label.innerText = e.target.value;
+            
+        }
+    </script>
+</body>
+
+</html>

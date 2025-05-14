@@ -1,0 +1,115 @@
+<html>
+<script>
+    const addNumbers = () => {
+
+        const n1 = document.getElementById("n1");
+        const n2 = document.getElementById("n2");
+        let result = document.getElementById("result");
+        result.textContent = parseInt(n1.value) + parseInt(n2.value);
+    }
+
+    const getGender = (e) => {
+        console.log(e.target.value);
+
+    }
+
+    const addNewField = () => {
+        let fieldsContainer = document.getElementById("fieldsContainer");
+        const fieldsCount = fieldsContainer.childElementCount;
+        const newField = document.createElement("input")
+        newField.type = "text";
+        newField.id = "n" + (fieldsCount + 1);
+        fieldsContainer.appendChild(newField)
+    }
+    const sumAllFields = () => {
+        // let fieldsContainer = document.getElementById("fieldsContainer");
+        // let fields = [...fieldsContainer.children];
+        const fields = document.getElementsByClassName("input")
+
+        let result = 0
+        localStorage.setItem("Sum Result", result)
+        for (let i = 0; i < fields.length; i++) {
+            result += parseInt(fields[i].value);
+        }
+
+        // fields.forEach(element => {
+        //     result += element.value == "" ? 0 : parseInt(element.value);
+        // });
+
+        localStorage.setItem("Sum Result", result)
+        let resultDiv = document.getElementById("result");
+        resultDiv.textContent = result
+    }
+
+    // const numbers = document.getElementsByTagName("input")
+    // for(let i = 0;i<numbers.length;i++){
+    //     sum += numbers[i];
+    // }
+
+
+</script>
+<style>
+    .button {
+        border-radius: 12px;
+        padding: 12px;
+        margin: 5px;
+        color: white;
+        border: none;
+        outline: none;
+        width: fit-content;
+        cursor: pointer;
+    }
+
+    input {
+        border-radius: 10px;
+        padding: 8px;
+        margin: 5px;
+        color: white;
+        border: 1px solid gray;
+        outline: none;
+        color: black;
+    }
+</style>
+
+<body>
+    <div style="margin-top: 20px; display: flex; flex-direction: column;">
+        <div id="fieldsContainer" style="display: flex; flex-direction: column; gap: 5px; margin-bottom: 20px;">
+
+            <input type="text" class="input" id="n1">
+            <input type="text" class="input" id="n2">
+
+        </div>
+        <button onclick="addNewField()" class="button"
+            style="background-color: #bbb; width: 100%; padding: 5px; border-radius: 5px;margin-top: 0;">+</button>
+
+        <div style="display: flex; justify-content: end; width: 100%;">
+            <button onclick="sumAllFields()" class="button" style="background-color: slateblue;">Sum</button>
+        </div>
+
+        <div style="font-family: Arial, Helvetica, sans-serif; font-weight: bold; display: flex; color: #666;">
+            Result:
+
+            <div id="result" style="color: black;"></div>
+        </div>
+    </div>
+    <hr style="color: #ddd; border: 0.5px solid #ddd;">
+    <div style="margin-top: 20px; display: flex; flex-direction: column;">
+        Gender
+        <div>
+
+            <label for="Male" style="cursor:pointer">
+                Male
+                <input type="radio" value="Male" id="Male" name="gender" onclick="getGender(event)">
+            </label>
+            <label for="Female" style="cursor:pointer">
+                Female
+                <input type="radio" value="Female" id="Female" name="gender" onclick="getGender(event)">
+            </label>
+        </div>
+    </div>
+
+
+
+</body>
+
+</html>
