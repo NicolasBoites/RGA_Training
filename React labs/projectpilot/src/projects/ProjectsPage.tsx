@@ -14,11 +14,6 @@ function ProjectsPage() {
     };
 
     const saveProject = (project: Project) => {
-        // let updatedProjects = projects.map((p: Project) => {
-        //     return p.id === project.id ? project : p;
-        // });
-        // setProjects(updatedProjects);
-
         projectAPI
             .put(project)
             .then((updatedProject) => {
