@@ -1,5 +1,5 @@
-import React, { use } from 'react'
-import { SyntheticEvent, useState } from 'react';
+import { useState } from 'react'
+import type { SyntheticEvent } from 'react';
 import { Project } from './Project';
 
 interface ProjectFormProps {

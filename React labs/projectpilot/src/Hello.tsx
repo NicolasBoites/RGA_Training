@@ -1,4 +1,5 @@
-import React, { SyntheticEvent } from "react";
+import React from "react";
+import type { SyntheticEvent } from "react";
 
 export interface Props {
   name: string;
