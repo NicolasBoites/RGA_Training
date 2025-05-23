@@ -262,7 +262,7 @@
     },
     {
       "id": 27,
-      "name": "Davis and Sons",
+      "name": "Davis and Sons ",
       "description": "Up-sized fresh-thinking complexity. Totam vel possimus omnis delectus dolor non nostrum maxime corporis.",
       "imageUrl": "/assets/placeimg_500_300_arch7.jpg",
       "contractTypeId": 1,
@@ -762,13 +762,13 @@
     },
     {
       "id": 77,
-      "name": "Abshire and asdasd",
+      "name": "Abshire and lab 24",
       "description": "Ergonomic mission-critical knowledge user. Consequatur pariatur eos molestiae qui aut dolorem laudantium nesciunt doloribus.",
       "imageUrl": "/assets/placeimg_500_300_arch6.jpg",
       "contractTypeId": 6,
       "contractSignedOn": "2018-08-16T18:49:06.477Z",
       "budget": 98123,
-      "isActive": true
+      "isActive": false
     },
     {
       "id": 78,

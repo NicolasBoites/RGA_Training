@@ -1,16 +1,16 @@
 import { useState } from 'react'
 import type { SyntheticEvent } from 'react';
 import { Project } from './Project';
+import { useSaveProject } from './projectHooks';
 
 interface ProjectFormProps {
     onCancel: () => void;
-    onSave: (project: Project) => void;
     project: Project;
 
 }
 
 function ProjectForm(props: ProjectFormProps) {
-    const { onCancel, onSave, project: initialProject } = props;
+    const { onCancel, project: initialProject } = props;
 
     const [project, setProject] = useState(initialProject);
     const [errors, setErrors] = useState({ name: '', description: '', budget: '' });
@@ -19,10 +19,12 @@ function ProjectForm(props: ProjectFormProps) {
         onCancel()
     }
 
+    const { mutate: saveProject, isPending } = useSaveProject();
+
     const handlerSubmit = (event: SyntheticEvent) => {
         event.preventDefault();
         if (!isValid()) return;
-        onSave(new Project(project))
+        saveProject(project);
     };
 
     function validate(project: Project) {
@@ -82,6 +84,7 @@ function ProjectForm(props: ProjectFormProps) {
         <div>
 
             <form className="input-group vertical" onSubmit={handlerSubmit}>
+                {isPending && <span className="toast">Saving...</span>}
                 <label htmlFor="name">Project Name</label>
                 {errors.name.length > 0 && (
                     <div className="card error">
