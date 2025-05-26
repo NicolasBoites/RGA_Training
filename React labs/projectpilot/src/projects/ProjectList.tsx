@@ -29,7 +29,7 @@ function ProjectList({ projects }: ProjectListProps) {
                     <div className="cols-sm" key={project.id}>
                         {
                             projectBeingEdited === project ?
-                                <ProjectForm project={project} onCancel={cancelEditing} />
+                                <ProjectForm project={project} onCancel={cancelEditing} isNew={false} />
                                 : <ProjectCard project={project} onEdit={handleEdit} />
                         }
                     </div>

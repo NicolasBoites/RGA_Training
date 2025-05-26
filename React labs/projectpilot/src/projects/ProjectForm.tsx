@@ -1,16 +1,17 @@
 import { useState } from 'react'
 import type { SyntheticEvent } from 'react';
 import { Project } from './Project';
-import { useSaveProject } from './projectHooks';
+import { useSaveProject, useCreateProject, useCreateSaveProject } from './projectHooks';
 
 interface ProjectFormProps {
     onCancel: () => void;
     project: Project;
+    isNew: boolean;
 
 }
 
 function ProjectForm(props: ProjectFormProps) {
-    const { onCancel, project: initialProject } = props;
+    const { onCancel, project: initialProject, isNew } = props;
 
     const [project, setProject] = useState(initialProject);
     const [errors, setErrors] = useState({ name: '', description: '', budget: '' });
@@ -19,12 +20,13 @@ function ProjectForm(props: ProjectFormProps) {
         onCancel()
     }
 
-    const { mutate: saveProject, isPending } = useSaveProject();
+    const { mutate: saveCreateProject, isPending } = useCreateSaveProject(isNew);
 
     const handlerSubmit = (event: SyntheticEvent) => {
         event.preventDefault();
         if (!isValid()) return;
-        saveProject(project);
+
+        saveCreateProject(project);
     };
 
     function validate(project: Project) {
@@ -42,6 +44,21 @@ function ProjectForm(props: ProjectFormProps) {
         if (project.budget === 0) {
             errors.budget = 'Budget must be more than $0.';
         }
+
+
+        /* TODO */
+        // add validations name <100 description< 2000 budget> 0
+        if (project.name.length > 0 && project.name.length > 100) {
+            errors.name = 'Max Name length is 100.';
+        }
+        if (project.description.length > 0 && project.description.length > 2000) {
+            errors.description = 'Max Description length is 2000.';
+        }
+        if (project.budget < 0) {
+            errors.budget = 'Budget cannot be negative.';
+        }
+
+
         return errors;
     }
 
@@ -124,11 +141,15 @@ function ProjectForm(props: ProjectFormProps) {
                     onChange={handleChange} />
 
                 <div className="input-group">
-                    <button className="primary bordered medium">Save</button>
+                    <button className="primary bordered medium">{isNew ? "Create" : "Save"}</button>
                     <span></span>
-                    <button type="button" className="bordered medium" onClick={handlerCancelClick}>cancel</button>
+                    {
+                        isNew ? '' :
+                            <button type="button" className="bordered medium" onClick={handlerCancelClick}>cancel</button>
+                    }
                 </div>
-            </form></div>
+            </form>
+        </div>
     )
 }
 

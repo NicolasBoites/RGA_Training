@@ -1,5 +1,6 @@
 import ProjectsPage from "./projects/ProjectsPage";
 import ProjectPage from './projects/ProjectPage';
+import NewProjectPage from './projects/NewProjectPage';
 import { BrowserRouter, Routes, Route, NavLink } from 'react-router';
 import HomePage from './home/HomePage';
 
@@ -17,6 +18,9 @@ function App() {
         <NavLink to="/projects" className="button rounded">
           Projects
         </NavLink>
+        <NavLink to="/new-project" className="button rounded">
+          New Project
+        </NavLink>
       </header>
       
       <div className="container">
@@ -24,6 +28,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/projects" element={<ProjectsPage />} />
           <Route path="/projects/:id" element={<ProjectPage />} />
+          <Route path="/new-project" element={<NewProjectPage />} />
         </Routes>
       </div>
     </BrowserRouter>
