@@ -1,8 +1,6 @@
 import { Project } from './Project';
 const baseUrl = 'http://localhost:4000';
-const nestjsBaseUrl = 'http://localhost:3000';
 const url = `${baseUrl}/projects`;
-const nestJsUrl = `${nestjsBaseUrl}/projects`;
 
 function translateStatusToErrorMessage(status: number) {
     switch (status) {
@@ -92,7 +90,7 @@ const projectAPI = {
     },
 
     post(project: Project) {
-        return fetch(`${nestJsUrl}`, {
+        return fetch(`${url}`, {
             method: 'POST',
             body: JSON.stringify(project),
             headers: {
