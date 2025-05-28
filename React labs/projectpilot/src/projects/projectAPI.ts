@@ -1,6 +1,6 @@
 import { Project } from './Project';
-const baseUrl = 'http://localhost:4000';
-const url = `${baseUrl}/projects`;
+const baseUrl = 'http://localhost:3000';
+const url = `${baseUrl}/project`;
 
 function translateStatusToErrorMessage(status: number) {
     switch (status) {
@@ -29,8 +29,10 @@ function checkStatus(response: any) {
     }
 }
 
-function parseJSON(response: Response) {
-    return response.json();
+async function parseJSON(response: Response) {
+    const jsonResponse = await response.json();
+
+    return jsonResponse.data;
 }
 
 // eslint-disable-next-line
@@ -64,14 +66,14 @@ const projectAPI = {
             });
     },
     put(project: Project) {
-        return fetch(`${url}/${project.id}`, {
+        return fetch(`${url}/${project._id}`, {
             method: 'PUT',
             body: JSON.stringify(project),
             headers: {
                 'Content-Type': 'application/json'
             }
         })
-        // .then(delay(2000))
+            // .then(delay(2000))
             .then(checkStatus)
             .then(parseJSON)
             .catch((error: TypeError) => {
@@ -82,7 +84,7 @@ const projectAPI = {
             });
     },
 
-    find(id: number) {
+    find(id: string) {
         return fetch(`${url}/${id}`)
             .then(checkStatus)
             .then(parseJSON)
@@ -97,13 +99,33 @@ const projectAPI = {
                 'Content-Type': 'application/json'
             }
         })
-        // .then(delay(2000))
+            // .then(delay(2000))
             .then(checkStatus)
             .then(parseJSON)
             .catch((error: TypeError) => {
                 console.log('log client error ' + error);
                 throw new Error(
                     'There was an error updating the project. Please try again.'
+                );
+            });
+    },
+
+    delete(project: Project) {
+        return fetch(`${url}/${project._id}`, {
+            method: 'DELETE',
+            body: JSON.stringify(project),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            // .then(delay(2000))
+            .then(checkStatus)
+            .then(parseJSON)
+            // .then(convertToProjectModels)
+            .catch((error: TypeError) => {
+                console.log('log client error ' + error);
+                throw new Error(
+                    'There was an error retrieving the projects. Please try again.'
                 );
             });
     },

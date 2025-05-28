@@ -1,26 +1,30 @@
 import { useState } from 'react'
 import type { SyntheticEvent } from 'react';
 import { Project } from './Project';
-import { useSaveProject, useCreateProject, useCreateSaveProject } from './projectHooks';
+import { useCreateSaveProject, useDeleteProject } from './projectHooks';
 
 interface ProjectFormProps {
     onCancel: () => void;
     project: Project;
-    isNew: boolean;
-
 }
 
 function ProjectForm(props: ProjectFormProps) {
-    const { onCancel, project: initialProject, isNew } = props;
+    const { onCancel, project: initialProject } = props;
 
     const [project, setProject] = useState(initialProject);
     const [errors, setErrors] = useState({ name: '', description: '', budget: '' });
+    const { mutate: saveCreateProject, isPending } = useCreateSaveProject(initialProject.isNew);
+    const { mutate: deleteProject } = useDeleteProject();
 
     const handlerCancelClick = () => {
         onCancel()
     }
 
-    const { mutate: saveCreateProject, isPending } = useCreateSaveProject(isNew);
+    const handlerDeleteClick = () => {
+        deleteProject(project);
+    }
+
+
 
     const handlerSubmit = (event: SyntheticEvent) => {
         event.preventDefault();
@@ -141,11 +145,15 @@ function ProjectForm(props: ProjectFormProps) {
                     onChange={handleChange} />
 
                 <div className="input-group">
-                    <button className="primary bordered medium">{isNew ? "Create" : "Save"}</button>
+                    <button className="primary bordered medium">{project.isNew ? "Create" : "Save"}</button>
                     <span></span>
                     {
-                        isNew ? '' :
-                            <button type="button" className="bordered medium" onClick={handlerCancelClick}>cancel</button>
+                        project.isNew ? '' :
+                            <>
+
+                                <button type="button" className="bordered medium" onClick={handlerCancelClick}>Cancel</button>
+                                <button type="button" className="bordered medium danger" onClick={handlerDeleteClick}>Delete</button>
+                            </>
                     }
                 </div>
             </form>

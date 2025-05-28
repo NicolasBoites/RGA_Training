@@ -14,12 +14,14 @@ export function useProjects() {
     queryFn: () => projectAPI.get(page + 1),
     placeholderData: (previousData) => previousData,
   });
-  console.log(queryInfo);
+  // console.log(queryInfo);
   return { ...queryInfo, page, setPage };
 }
 
 export function useSaveProject() {
   const queryClient = useQueryClient();
+  
+  
   return useMutation({
     mutationFn: (project: Project) => projectAPI.put(project),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["projects"] }),
@@ -30,6 +32,14 @@ export function useCreateProject() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (project: Project) => projectAPI.post(project),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["projects"] }),
+  });
+}
+
+export function useDeleteProject() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (project: Project) => projectAPI.delete(project),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["projects"] }),
   });
 }

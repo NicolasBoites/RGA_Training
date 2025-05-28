@@ -9,7 +9,7 @@ function ProjectPage() {
   const [project, setProject] = useState<Project | null>(null);
   const [error, setError] = useState<string | null>(null);
   const params = useParams();
-  const id = Number(params.id);
+  const id = String(params.id);
 
   useEffect(() => {
     setLoading(true);

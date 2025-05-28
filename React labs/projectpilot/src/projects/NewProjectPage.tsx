@@ -7,7 +7,7 @@ function NewProjectPage() {
   return (
     <div>
         <h1>New Project</h1>
-        <ProjectForm project={new Project} onCancel={() => {}} isNew={true} />
+        <ProjectForm project={new Project} onCancel={() => {}} />
     </div>
   );
 }
