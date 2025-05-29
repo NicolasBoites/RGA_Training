@@ -75,6 +75,21 @@ export class ProjectController {
     }
   }
 
+   @Get('/name/:name')
+  async getProjectByName(@Res() response, @Param('name') name: string) {
+    try {
+      const existingProject = await this.projectService.getProjectByName(name);
+      return response.status(HttpStatus.OK).json({
+        message: 'Project found successfully',
+        data: existingProject,
+      });
+    } catch (err) {
+      console.log(err);
+
+      return response.status(err.status).json(err.response);
+    }
+  }
+
   @Delete('/:id')
   async deleteProject(@Res() response, @Param('id') projectId: string) {
     try {

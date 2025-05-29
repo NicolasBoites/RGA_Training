@@ -72,6 +72,14 @@ export class ProjectService {
     return project;
   }
 
+  async getProjectByName(name: string): Promise<IProject> {
+    const project = await this.projectModel.findOne({ "name": name });
+    if (!project) {
+      throw new NotFoundException(`Project #${name} not found`);
+    }
+    return project;
+  }
+
   async deleteProject(ProjetId: string): Promise<IProject> {
     const deletedProject = await this.projectModel.findByIdAndDelete(ProjetId);
     if (!deletedProject) {
