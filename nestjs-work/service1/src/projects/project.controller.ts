@@ -1,9 +1,10 @@
 import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Put, Query, Res } from '@nestjs/common';
 import { ProjectService } from './project.service';
 import { CreateProjectDto } from './dto/create-project.dto';
-import { response } from 'express';
 import { UpdateProjectDto } from './dto/update-project.dto';
+import { ApiExtraModels } from '@nestjs/swagger';
 
+@ApiExtraModels(UpdateProjectDto)
 @Controller("project")
 export class ProjectController {
   constructor(private readonly projectService: ProjectService) { }

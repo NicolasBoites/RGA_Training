@@ -2,6 +2,9 @@ import { useState } from 'react'
 import type { SyntheticEvent } from 'react';
 import { Project } from './Project';
 import { useCreateSaveProject, useDeleteProject } from './projectHooks';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Swal from 'sweetalert2';
 
 interface ProjectFormProps {
     onCancel: () => void;
@@ -21,52 +24,78 @@ function ProjectForm(props: ProjectFormProps) {
     }
 
     const handlerDeleteClick = () => {
-        deleteProject(project);
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "This action cannot be undone!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteProject(project);
+            }
+        });
     }
-
-
 
     const handlerSubmit = (event: SyntheticEvent) => {
         event.preventDefault();
+
+        const cleanedProject = new Project({
+            ...project,
+            name: project.name.trim(),
+            description: project.description.trim(),
+        })
+
+        const validationErrors = validate(cleanedProject);
+        setErrors(validationErrors);
+
         if (!isValid()) return;
 
-        saveCreateProject(project);
+        saveCreateProject(cleanedProject, {
+            onSuccess: () => {
+                toast.success('Project saved successfully!');
+            },
+            onError: (error: Error) => {
+                toast.error(error.message || 'There was an error saving the project.');
+            },
+        });
+
+        setProject(new Project({ name: '', description: '', budget: '' }))
     };
 
     function validate(project: Project) {
 
         let errors: any = { name: '', description: '', budget: '' };
-        if (project.name.length === 0) {
-            errors.name = 'Name is required';
+
+        const trimmedName = project.name.trim();
+
+        if (trimmedName.length === 0) {
+            errors.name = 'Name is required and cannot be only blank spaces.';
+        } else if (trimmedName.length < 3) {
+            errors.name = 'Name must be at least 3 characters.';
+        } else if (trimmedName.length > 100) {
+            errors.name = 'Max name length is 100 characters.';
         }
-        if (project.name.length > 0 && project.name.length < 3) {
-            errors.name = 'Name needs to be at least 3 characters.';
-        }
-        if (project.description.length === 0) {
+
+
+        const trimmedDesc = project.description.trim();
+        if (trimmedDesc.length === 0) {
             errors.description = 'Description is required.';
+        } else if (trimmedDesc.length > 2000) {
+            errors.description = 'Max description length is 2000 characters.';
         }
+
         if (project.budget === 0) {
             errors.budget = 'Budget must be more than $0.';
         }
-
-
-        /* TODO */
-        // add validations name <100 description< 2000 budget> 0
-        if (project.name.length > 0 && project.name.length > 100) {
-            errors.name = 'Max Name length is 100.';
-        }
-        if (project.description.length > 0 && project.description.length > 2000) {
-            errors.description = 'Max Description length is 2000.';
-        }
-        if (project.budget < 0) {
-            errors.budget = 'Budget cannot be negative.';
-        }
-
 
         return errors;
     }
 
     function isValid() {
+
         return (
             errors.name.length === 0 &&
             errors.description.length === 0 &&
@@ -104,7 +133,7 @@ function ProjectForm(props: ProjectFormProps) {
     return (
         <div>
 
-            <form className="input-group vertical" onSubmit={handlerSubmit}>
+            <form className="input-group vertical" onSubmit={handlerSubmit} action="">
                 {isPending && <span className="toast">Saving...</span>}
                 <label htmlFor="name">Project Name</label>
                 {errors.name.length > 0 && (
