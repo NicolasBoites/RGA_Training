@@ -1,7 +1,7 @@
 import { MongooseModule } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AccessTokenGuard } from '../common/gaurds/gaurd.access_token';
-import { User, UserSchema } from './_schemas/user.schema';
+import { User, UserSchema } from './schemas/user.schema';
 import {
   closeInMongodConnection,
   rootMongooseTestModule,
