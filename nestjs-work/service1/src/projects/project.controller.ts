@@ -43,13 +43,13 @@ export class ProjectController {
   }
 
   @Get()
-  async getProjects(@Res() response, @Query('_page') page: number, @Query('_limit') limit: number, @Query('_sort') sort: string,) {
+  async getProjects(@Res() response,@Query('_name') name: string, @Query('_page') page: number, @Query('_limit') limit: number, @Query('_sort') sort: string,) {
     try {
       const pageNumber = Number(page) || 1;
       const limitNumber = Number(limit) || 10;
       const sortBy = sort || 'name';
 
-      const projects = await this.projectService.getAllProjects({page: pageNumber,limit: limitNumber, sort: sortBy});
+      const projects = await this.projectService.getAllProjects({name: name, page: pageNumber,limit: limitNumber, sort: sortBy});
       return response.status(HttpStatus.OK).json({
         message: "All projects data found successfully",
         data: projects
@@ -75,12 +75,12 @@ export class ProjectController {
     }
   }
 
-   @Get('/name/:name')
-  async getProjectByName(@Res() response, @Param('name') name: string) {
+   @Get('/search')
+  async getProjectByName(@Res() response, @Query('name') name: string) {
     try {
-      const existingProject = await this.projectService.getProjectByName(name);
+      const existingProject = await this.projectService.searchProjectByName(name);
       return response.status(HttpStatus.OK).json({
-        message: 'Project found successfully',
+        message: 'Projects found successfully',
         data: existingProject,
       });
     } catch (err) {

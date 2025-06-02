@@ -4,6 +4,7 @@ import NewProjectPage from './projects/NewProjectPage';
 import { BrowserRouter, Routes, Route, NavLink } from 'react-router';
 import HomePage from './home/HomePage';
 import { ToastContainer } from 'react-toastify';
+import RegistrationPage from "./authentication/RegisterPage";
 
 function App() {
   return (
@@ -25,6 +26,9 @@ function App() {
           <NavLink to="/new-project" className="button rounded">
             New Project
           </NavLink>
+          <NavLink to="/signup" className="button rounded">
+            SignUp
+          </NavLink>
         </header>
 
         <div className="container">
@@ -33,6 +37,7 @@ function App() {
             <Route path="/projects" element={<ProjectsPage />} />
             <Route path="/projects/:id" element={<ProjectPage />} />
             <Route path="/new-project" element={<NewProjectPage />} />
+            <Route path="/signup" element={<RegistrationPage />} />
           </Routes>
         </div>
       </BrowserRouter>

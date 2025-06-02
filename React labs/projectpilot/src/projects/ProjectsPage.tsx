@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useProjects } from './projectHooks';
 import ProjectList from './ProjectList';
 
@@ -10,13 +11,36 @@ function ProjectsPage() {
     isFetching,
     page,
     setPage,
+    name,
+    setName,
     isPreviousData,
   } = useProjects();
+
+  // const [query, setQuery] = useState("");
+
+  const debounce = (query: string) => {
+    const delay = setTimeout(() => {
+      if (query.trim() !== "") {
+        setName(query);
+      }
+    }, 500);
+    clearTimeout(delay)
+  }
 
   return (
     <>
       <h1>Projects</h1>
+      <div className="search-box">
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => debounce(e.target.value)}
+          placeholder="Search..."
+          className="form-control"
+        />
+        {/* {loading && <div>Buscando...</div>} */}
 
+      </div>
       {data ? (
         <>
           {isFetching && !isPending && (
@@ -71,17 +95,3 @@ function ProjectsPage() {
 }
 
 export default ProjectsPage;
-
-// this commented code is unnecessary it's just here to show you the pattern
-// return (
-//   <>
-//     <h1>Header</h1>
-//     {data ? (
-//       <p>data</p>
-//     ) : isLoading ? (
-//       <p>Loading...</p>
-//     ) : isError ? (
-//       <p>Error Message</p>
-//     ) : null}
-//   </>
-// );

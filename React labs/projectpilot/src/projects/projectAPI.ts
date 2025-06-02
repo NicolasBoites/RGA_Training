@@ -52,8 +52,8 @@ function convertToProjectModel(item: any): Project {
 }
 
 const projectAPI = {
-    get(page = 1, limit = 10) {
-        return fetch(`${url}?_page=${page}&_limit=${limit}&_sort=name`)
+    get(page = 1, limit = 10, name = null) {
+        return fetch(`${url}?_name=${name}&_page=${page}&_limit=${limit}&_sort=name`)
             // .then(delay(2000))
             .then(checkStatus)
             .then(parseJSON)

@@ -51,8 +51,16 @@ export class ProjectService {
     const pageNumber = Number(params.page);
     const limitNumber = Number(params.limit);
     const sortBy = params.sort;
+    const name = params.name;
 
-    const projects = await this.projectModel.find().limit(limitNumber).skip((pageNumber - 1) * limitNumber).sort(sortBy);
+    const filter: any = {};
+
+    if (name && name.trim() !== '') {
+      filter.name = { $regex: name, $options: 'i' };
+    }
+
+
+    const projects = await this.projectModel.find(filter).limit(limitNumber).skip((pageNumber - 1) * limitNumber).sort(sortBy);
     if (!projects || projects.length == 0) {
       throw new NotFoundException('Projects data not found!');
 
@@ -72,12 +80,16 @@ export class ProjectService {
     return project;
   }
 
-  async getProjectByName(name: string): Promise<IProject> {
-    const project = await this.projectModel.findOne({ "name": name });
-    if (!project) {
-      throw new NotFoundException(`Project #${name} not found`);
+  async searchProjectByName(name: string): Promise<IProject[]> {
+    if (!name || name.trim() === '') {
+      return [];
     }
-    return project;
+
+    const projects = await this.projectModel.find({ "name": name });
+    if (!projects) {
+      throw new NotFoundException(`No projects found with the name: ${name}`);
+    }
+    return projects;
   }
 
   async deleteProject(ProjetId: string): Promise<IProject> {
