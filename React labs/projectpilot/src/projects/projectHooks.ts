@@ -11,7 +11,7 @@ export function useProjects() {
   const [page, setPage] = useState(0);
   const [name, setName] = useState('');
 
-  let queryInfo = useQuery({
+  const queryInfo = useQuery({
     queryKey: ['projects', page, name],
     queryFn: () => projectAPI.get(page + 1),
     placeholderData: (previousData) => previousData,

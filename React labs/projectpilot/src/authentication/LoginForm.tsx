@@ -5,12 +5,10 @@ import Alert from "../components/alert.component";
 import type { AxiosResponse } from "axios";
 import Loader from "../components/loader.component";
 
-function RegistrationForm() {
-  const [name, setName] = useState("");
+function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({
-    name: "",
     email: "",
     password: "",
   });
@@ -18,10 +16,6 @@ function RegistrationForm() {
   const [successful, setSuccessful] = useState(false);
   const [message, setMessage] = useState("");
 
-  const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setErrors({ ...errors, name: "" });
-    setName(e.target.value);
-  };
 
   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setErrors({ ...errors, email: "" });
@@ -33,7 +27,7 @@ function RegistrationForm() {
     setPassword(e.target.value);
   };
 
-  const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     setMessage("");
@@ -45,11 +39,11 @@ function RegistrationForm() {
 
     if (!isValid(errs)) return;
 
-    await AuthService.register(name, email, password)
+    await AuthService.login(email, password)
       .then((response: AxiosResponse) => {
         console.log("response", response);
 
-        setMessage("User successfully registered. Now you can SignIn");
+        setMessage("SignIn successfully");
         setSuccessful(true);
       })
       .catch((error) => {
@@ -65,14 +59,7 @@ function RegistrationForm() {
   };
 
   function validate() {
-    const validationErrors = { name: "", email: "", password: "" };
-
-    const trimmedName = name.trim();
-    if (trimmedName.length === 0) {
-      validationErrors.name = "The name is required.";
-    } else if (trimmedName.length < 3 || trimmedName.length > 20) {
-      validationErrors.name = "The name must be between 3 and 20 characters.";
-    }
+    const validationErrors = { email: "", password: "" };
 
     const trimmedPassword = password.trim();
     if (trimmedPassword.length === 0) {
@@ -94,7 +81,6 @@ function RegistrationForm() {
 
   function isValid(errs) {
     return (
-      errs.name.length === 0 &&
       errs.email.length === 0 &&
       errs.password.length === 0
     );
@@ -109,21 +95,10 @@ function RegistrationForm() {
           className="profile-img-card"
         />
 
-        <form onSubmit={handleRegister}>
+        <form onSubmit={handleLogin}>
           {!loading && !successful && (
             <div>
-              <div className="form-group">
-                <label htmlFor="name">Name</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="name"
-                  value={name}
-                  onChange={handleName}
-                />
-                {errors.name && <Alert type="error">{errors.name}</Alert>}
-              </div>
-
+              
               <div className="form-group">
                 <label htmlFor="email">Email</label>
                 <input
@@ -151,7 +126,7 @@ function RegistrationForm() {
               </div>
 
               <div className="form-group">
-                <button className="btn btn-primary btn-block">Sign Up</button>
+                <button className="btn btn-primary btn-block">Sign In</button>
               </div>
             </div>
           )}
@@ -169,4 +144,4 @@ function RegistrationForm() {
   );
 }
 
-export default RegistrationForm;
+export default LoginForm;
