@@ -3,11 +3,16 @@ import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 import { TransformInterceptor } from './common/interceptor/interceptor.transform';
+import { LoggingInterceptor } from './common/interceptor/loggin.interceptors';
 
 async function bootstrap() {
 
   const app = await NestFactory.create(AppModule);
   app.enableCors();
+
+  // app.useGlobalInterceptors(new TransformInterceptor()); // Comented because there is a problem with NodeJS
+  app.useGlobalInterceptors(new LoggingInterceptor());
+
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -15,7 +20,6 @@ async function bootstrap() {
     }),
   );
 
-  app.useGlobalInterceptors(new TransformInterceptor());
 
   const config = new DocumentBuilder()
     .setTitle('Project example')
