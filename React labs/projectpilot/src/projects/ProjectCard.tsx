@@ -20,7 +20,7 @@ function ProjectCard(props: ProjectProps) {
 
     return (
         <div className="rounded-xl bg-slate-200 p-2">
-            <img src={project.imageUrl} alt={project.name} />
+            <img src={project.imageUrl ? project.imageUrl : "https://picsum.photos/300/300"} alt={project.name} />
             <section className="section dark">
                 <Link to={'/projects/' + project._id}>
                     <h5 className="strong !decoration-0">

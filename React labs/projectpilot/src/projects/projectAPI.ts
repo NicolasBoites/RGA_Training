@@ -71,19 +71,7 @@ function getAuthHeaders(extraHeaders = {}) {
 
 const projectAPI = {
   async get(page = 1, name = "", limit = 10) {
-    console.log("get", name);
-
-    // const isAuthenticatedx = authService.isAuthenticated();
-    // console.log("isAuthenticated", isAuthenticatedx);
-    // if(!authService.isAuthenticated()) {
-
-    //   await authService.refreshAccessToken()};
-
-    // if(!authService.isAuthenticated) {
-    //   throw new Error("Session expired. Signin again");
-    // }
-
-    return (
+       return (
       fetch(`${url}?_name=${name}&_page=${page}&_limit=${limit}&_sort=name`, {
         headers: getAuthHeaders(),
       })
@@ -91,7 +79,6 @@ const projectAPI = {
         .then(parseJSON)
         .then(convertToProjectModels)
         .catch((error: TypeError) => {
-          console.log("log client error " + error);
           throw new Error(
             "There was an error retrieving the projects. Please try again."
           );
@@ -108,7 +95,6 @@ const projectAPI = {
         .then(checkStatus)
         .then(parseJSON)
         .catch((error: TypeError) => {
-          console.log("log client error " + error);
           throw new Error(
             "There was an error updating the project. Please try again."
           );
@@ -135,7 +121,6 @@ const projectAPI = {
         .then(checkStatus)
         .then(parseJSON)
         .catch((error: TypeError) => {
-          console.log("log client error " + error);
           throw new Error(
             "There was an error updating the project. Please try again."
           );
@@ -153,7 +138,6 @@ const projectAPI = {
         .then(checkStatus)
         .then(parseJSON)
         .catch((error: TypeError) => {
-          console.log("log client error " + error);
           throw new Error(
             "There was an error retrieving the projects. Please try again."
           );

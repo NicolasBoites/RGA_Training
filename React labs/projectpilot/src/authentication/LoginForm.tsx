@@ -29,11 +29,7 @@ function LoginForm() {
   };
 
   const handleRedirect = () => {
-    console.log("handle redirect");
-
     setTimeout(() => {
-      console.log("timeout");
-
       navigate("/projects");
     }, 500)
   }
@@ -53,8 +49,6 @@ function LoginForm() {
 
     await AuthService.login(email, password)
       .then((response: AxiosResponse) => {
-        console.log("response", response);
-
         setMessage("Sign in successfully");
         setSuccessful(true);
 
