@@ -18,7 +18,7 @@ export class AuthService {
     private usersService: UsersService,
     private jwtService: JwtService,
     private configService: ConfigService,
-  ) {}
+  ) { }
   async signUp(createUserDto: CreateUserDto): Promise<LoginResponse> {
     const userExists = await this.usersService.findByEmail(createUserDto.email);
     if (userExists) {
@@ -44,7 +44,7 @@ export class AuthService {
     // Check if user exists
     const user = await this.usersService.findByEmail(data.email);
     if (!user) throw new BadRequestException('User does not exist');
-    const passwordMatches = argon2.verify(user.password, data.password);
+    const passwordMatches = await argon2.verify(user.password, data.password);
     if (!passwordMatches)
       throw new BadRequestException('Password is incorrect');
     const tokens = await this.getTokens(user.id, user.email);
