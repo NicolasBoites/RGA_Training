@@ -19,19 +19,19 @@ function ProjectCard(props: ProjectProps) {
     };
 
     return (
-        <div className="card">
+        <div className="rounded-xl bg-slate-200 p-2">
             <img src={project.imageUrl} alt={project.name} />
             <section className="section dark">
                 <Link to={'/projects/' + project._id}>
-                    <h5 className="strong">
+                    <h5 className="strong !decoration-0">
                         <strong>{project.name}</strong>
                     </h5>
-                    <p>{formatDescription(project.description)}</p>
-                    <p>Budget: ${project.budget.toLocaleString()}</p>
+                    <p className='!decoration-0'>{formatDescription(project.description)}</p>
+                    <p className='!decoration-0'>Budget: ${project.budget.toLocaleString()}</p>
                 </Link>
 
-                <button className="bordered" onClick={() => { handleEditClick(project) }}>
-                    <span className="icon-edit "></span>
+                <button className="!bg-gray-400 !text-slate-200 !px-4 !py-2 !rounded-lg  !hover:bg-gray-400 !transition-all !duration-200" onClick={() => { handleEditClick(project) }}>
+                    {/* <span className="icon-edit !text-slate-900"></span> */}
                     Edit
                 </button>
             </section>

@@ -13,10 +13,9 @@ export function useProjects() {
 
   const queryInfo = useQuery({
     queryKey: ['projects', page, name],
-    queryFn: () => projectAPI.get(page + 1),
+    queryFn: () => projectAPI.get(page + 1, name),
     placeholderData: (previousData) => previousData,
   });
-  // console.log(queryInfo);
   return { ...queryInfo, page, setPage, name, setName };
 }
 

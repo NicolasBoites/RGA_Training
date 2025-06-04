@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import ProjectForm from './ProjectForm';
 import { Project } from './Project';
 

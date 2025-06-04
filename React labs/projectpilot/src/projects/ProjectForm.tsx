@@ -133,7 +133,7 @@ function ProjectForm(props: ProjectFormProps) {
     return (
         <div>
 
-            <form className="input-group vertical" onSubmit={handlerSubmit} action="">
+            <form className="" onSubmit={handlerSubmit} action="">
                 {isPending && <span className="toast">Saving...</span>}
                 <label htmlFor="name">Project Name</label>
                 {errors.name.length > 0 && (

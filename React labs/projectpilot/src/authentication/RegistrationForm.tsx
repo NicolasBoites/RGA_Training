@@ -4,6 +4,7 @@ import { isValidEmail } from "../common/email-validations";
 import Alert from "../components/alert.component";
 import type { AxiosResponse } from "axios";
 import Loader from "../components/loader.component";
+import { Link } from "react-router";
 
 function RegistrationForm() {
   const [name, setName] = useState("");
@@ -33,6 +34,7 @@ function RegistrationForm() {
     setPassword(e.target.value);
   };
 
+
   const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -49,8 +51,10 @@ function RegistrationForm() {
       .then((response: AxiosResponse) => {
         console.log("response", response);
 
-        setMessage("User successfully registered. Now you can SignIn");
+        setMessage("User successfully registered. Now you can Sign in");
         setSuccessful(true);
+
+
       })
       .catch((error) => {
         const resMessage =
@@ -85,14 +89,16 @@ function RegistrationForm() {
     const trimmedEmail = email.trim();
     if (trimmedEmail.length === 0) {
       validationErrors.email = "The email is required.";
-    } else if (isValidEmail(trimmedPassword)) {
+    } else if (isValidEmail(trimmedEmail)) {
+      console.log("isValidEmail", isValidEmail(trimmedEmail));
+
       validationErrors.email = "This is not a valid email.";
     }
 
     return validationErrors;
   }
 
-  function isValid(errs) {
+  function isValid(errs: any) {
     return (
       errs.name.length === 0 &&
       errs.email.length === 0 &&
@@ -101,70 +107,69 @@ function RegistrationForm() {
   }
 
   return (
-    <div className="col-md-12">
-      <div className="card card-container px-px ">
-        <img
-          src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-          alt="profile-img"
-          className="profile-img-card"
-        />
-
-        <form onSubmit={handleRegister}>
-          {!loading && !successful && (
-            <div>
-              <div className="form-group">
-                <label htmlFor="name">Name</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="name"
-                  value={name}
-                  onChange={handleName}
-                />
-                {errors.name && <Alert type="error">{errors.name}</Alert>}
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="email">Email</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="email"
-                  value={email}
-                  onChange={handleEmail}
-                />
-                {errors.email && <Alert type="error">{errors.email}</Alert>}
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="password">Password</label>
-                <input
-                  type="password"
-                  className="form-control"
-                  name="password"
-                  value={password}
-                  onChange={handlePassword}
-                />
-                {errors.password && (
-                  <Alert type="error">{errors.password}</Alert>
-                )}
-              </div>
-
-              <div className="form-group">
-                <button className="btn btn-primary btn-block">Sign Up</button>
-              </div>
+    <div className=" px-2 ">
+      {!loading && message && (
+        <div className="w-full px-2">
+          <Alert type={successful ? "success" : "error"}>{message}</Alert>
+        </div>
+      )}
+      <form className="!rounded-xl !w-72" onSubmit={handleRegister}>
+        {!loading && !successful && (
+          <div>
+            <div className="w-full px-2">
+              <label htmlFor="name">Name</label>
+              <input
+                type="text"
+                className="w-full box-border"
+                name="name"
+                value={name}
+                onChange={handleName}
+              />
+              {errors.name && <Alert type="error">{errors.name}</Alert>}
             </div>
-          )}
 
-          {!loading && message && (
-            <div className="form-group">
-              <Alert type={successful ? "success" : "error"}>{message}</Alert>
+            <div className="w-full px-2">
+              <label htmlFor="email">Email</label>
+              <input
+                type="text"
+                className="w-full box-border"
+                name="email"
+                value={email}
+                onChange={handleEmail}
+              />
+              {errors.email && <Alert type="error">{errors.email}</Alert>}
             </div>
-          )}
 
-          {loading && <Loader />}
-        </form>
-      </div>
+            <div className="w-full px-2">
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                className="w-full box-border"
+                name="password"
+                value={password}
+                onChange={handlePassword}
+              />
+              {errors.password && (
+                <Alert type="error">{errors.password}</Alert>
+              )}
+            </div>
+
+            <div className="w-full px-2">
+              <button className="!px-4 !py-2 !bg-blue-600 !text-white !rounded-xl !hover:bg-blue-700 !focus:outline-none !focus:ring-2 !focus:ring-blue-400 !transition-all !shadow-md">Sign Up</button>
+            </div>
+            <p>Already have an account? <Link to="/signin">Sign In</Link></p>
+          </div>
+
+        )}
+
+
+        {loading &&
+          <div className="w-full flex justify-around">
+
+            <Loader />
+          </div>
+        }
+      </form>
     </div>
   );
 }

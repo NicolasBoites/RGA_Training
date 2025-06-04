@@ -1,6 +1,6 @@
 function Loader() {
   return (
-    <div className="center-page">
+    <div className="text-center">
       <span className="spinner primary"></span>
       <p>Loading...</p>
     </div>

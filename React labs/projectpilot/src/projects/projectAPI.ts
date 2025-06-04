@@ -1,7 +1,7 @@
+import authService from "../services/auth.service";
 import { Project } from "./Project";
 const baseUrl = "http://localhost:3000";
 const url = `${baseUrl}/project`;
-const user = localStorage.getItem("user");
 
 function translateStatusToErrorMessage(status: number) {
   switch (status) {
@@ -25,8 +25,20 @@ function checkStatus(response: any) {
     };
     console.log(`log server http error: ${JSON.stringify(httpErrorInfo)}`);
 
+    if (httpErrorInfo.status == 401) {
+      reauthenticate()
+    }
+
     const errorMessage = translateStatusToErrorMessage(httpErrorInfo.status);
     throw new Error(errorMessage);
+  }
+}
+
+async function reauthenticate() {
+  const refreshAccessToken = await authService.refreshAccessToken();
+
+  if(!refreshAccessToken){
+    throw new Error("Session expired. Please login again.");
   }
 }
 
@@ -34,13 +46,6 @@ async function parseJSON(response: Response) {
   const jsonResponse = await response.json();
 
   return jsonResponse.data;
-}
-
-// eslint-disable-next-line
-function delay(ms: number) {
-  return function (x: any): Promise<any> {
-    return new Promise((resolve) => setTimeout(() => resolve(x), ms));
-  };
 }
 
 function convertToProjectModels(data: any[]): Project[] {
@@ -53,36 +58,35 @@ function convertToProjectModel(item: any): Project {
 }
 
 function getAuthHeaders(extraHeaders = {}) {
-  const userString = localStorage.getItem("user");
 
-  if (!userString) {
-    throw new Error("No authentication token found. Please log in.");
-  }
+  let user = authService.getCurrentUser();
 
-  let user;
-  try {
-    user = JSON.parse(userString);
-  } catch {
-    throw new Error("Invalid user session data.");
-  }
-
-  if (!user.accessToken) {
-    throw new Error("No authentication token found. Please log in.");
-  }
-
-  return {
+  const headers = {
     ...extraHeaders,
     Authorization: `Bearer ${user.accessToken}`,
-  };
+  }
+
+  return headers;
 }
 
 const projectAPI = {
-  get(page = 1, limit = 10, name = null) {
+  async get(page = 1, name = "", limit = 10) {
+    console.log("get", name);
+
+    // const isAuthenticatedx = authService.isAuthenticated();
+    // console.log("isAuthenticated", isAuthenticatedx);
+    // if(!authService.isAuthenticated()) {
+
+    //   await authService.refreshAccessToken()};
+
+    // if(!authService.isAuthenticated) {
+    //   throw new Error("Session expired. Signin again");
+    // }
+
     return (
       fetch(`${url}?_name=${name}&_page=${page}&_limit=${limit}&_sort=name`, {
         headers: getAuthHeaders(),
       })
-        // .then(delay(2000))
         .then(checkStatus)
         .then(parseJSON)
         .then(convertToProjectModels)
@@ -101,7 +105,6 @@ const projectAPI = {
         body: JSON.stringify(project),
         headers: getAuthHeaders({ "Content-Type": "application/json" }),
       })
-        // .then(delay(2000))
         .then(checkStatus)
         .then(parseJSON)
         .catch((error: TypeError) => {
@@ -129,7 +132,6 @@ const projectAPI = {
         body: JSON.stringify(project),
         headers: getAuthHeaders({ "Content-Type": "application/json" }),
       })
-        // .then(delay(2000))
         .then(checkStatus)
         .then(parseJSON)
         .catch((error: TypeError) => {
@@ -148,10 +150,8 @@ const projectAPI = {
         body: JSON.stringify(project),
         headers: getAuthHeaders({ "Content-Type": "application/json" }),
       })
-        // .then(delay(2000))
         .then(checkStatus)
         .then(parseJSON)
-        // .then(convertToProjectModels)
         .catch((error: TypeError) => {
           console.log("log client error " + error);
           throw new Error(

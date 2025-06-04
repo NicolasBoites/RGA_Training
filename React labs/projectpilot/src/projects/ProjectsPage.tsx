@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useRef } from 'react';
 import { useProjects } from './projectHooks';
 import ProjectList from './ProjectList';
 
@@ -11,34 +11,32 @@ function ProjectsPage() {
     isFetching,
     page,
     setPage,
-    name,
     setName,
-    isPreviousData,
   } = useProjects();
-
-  // const [query, setQuery] = useState("");
+  const debounceTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const debounce = (query: string) => {
-    const delay = setTimeout(() => {
-      if (query.trim() !== "") {
-        setName(query);
-      }
-    }, 500);
-    clearTimeout(delay)
+
+    if (debounceTimeout.current) {
+      clearTimeout(debounceTimeout.current); // limpia el timeout anterior
+    }
+
+    debounceTimeout.current = setTimeout(() => {
+      setName(query.trim());
+    }, 1200);
   }
 
+
   return (
-    <>
+    <div className='px-16'>
       <h1>Projects</h1>
       <div className="search-box">
         <input
           type="text"
-          value={name}
           onChange={(e) => debounce(e.target.value)}
           placeholder="Search..."
-          className="form-control"
+          className="!rounded-xl !my-3 outline-blue-300 outline-2"
         />
-        {/* {loading && <div>Buscando...</div>} */}
 
       </div>
       {data ? (
@@ -61,9 +59,9 @@ function ProjectsPage() {
                 <button
                   className="button"
                   onClick={() => {
-                    if (!isPreviousData) {
-                      setPage((oldPage) => oldPage + 1);
-                    }
+                    // if (!isPreviousData) {
+                    setPage((oldPage) => oldPage + 1);
+                    // }
                   }}
                   disabled={data.length != 10}
                 >
@@ -90,7 +88,7 @@ function ProjectsPage() {
           </div>
         </div>
       ) : null}
-    </>
+    </div>
   );
 }
 

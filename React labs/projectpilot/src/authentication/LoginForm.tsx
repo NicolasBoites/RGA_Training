@@ -4,6 +4,7 @@ import { isValidEmail } from "../common/email-validations";
 import Alert from "../components/alert.component";
 import type { AxiosResponse } from "axios";
 import Loader from "../components/loader.component";
+import { Link, useNavigate } from "react-router";
 
 function LoginForm() {
   const [email, setEmail] = useState("");
@@ -15,6 +16,7 @@ function LoginForm() {
   const [loading, setLoading] = useState(false);
   const [successful, setSuccessful] = useState(false);
   const [message, setMessage] = useState("");
+  const navigate = useNavigate();
 
 
   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,24 +29,39 @@ function LoginForm() {
     setPassword(e.target.value);
   };
 
+  const handleRedirect = () => {
+    console.log("handle redirect");
+
+    setTimeout(() => {
+      console.log("timeout");
+
+      navigate("/projects");
+    }, 500)
+  }
+
+
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    setMessage("");
-    setSuccessful(false);
-    setLoading(true);
 
     const errs = validate();
     setErrors(errs);
 
     if (!isValid(errs)) return;
 
+
+    setMessage("");
+    setSuccessful(false);
+    setLoading(true);
+
     await AuthService.login(email, password)
       .then((response: AxiosResponse) => {
         console.log("response", response);
 
-        setMessage("SignIn successfully");
+        setMessage("Sign in successfully");
         setSuccessful(true);
+
+        handleRedirect()
+
       })
       .catch((error) => {
         const resMessage =
@@ -64,22 +81,17 @@ function LoginForm() {
     const trimmedPassword = password.trim();
     if (trimmedPassword.length === 0) {
       validationErrors.password = "The password is required.";
-    } else if (trimmedPassword.length < 6 || trimmedPassword.length > 40) {
-      validationErrors.password =
-        "The password must be between 6 and 40 characters.";
     }
 
     const trimmedEmail = email.trim();
     if (trimmedEmail.length === 0) {
       validationErrors.email = "The email is required.";
-    } else if (isValidEmail(trimmedPassword)) {
-      validationErrors.email = "This is not a valid email.";
     }
 
     return validationErrors;
   }
 
-  function isValid(errs) {
+  function isValid(errs: any) {
     return (
       errs.email.length === 0 &&
       errs.password.length === 0
@@ -87,59 +99,59 @@ function LoginForm() {
   }
 
   return (
-    <div className="col-md-12">
-      <div className="card card-container px-px ">
-        <img
-          src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-          alt="profile-img"
-          className="profile-img-card"
-        />
+    <div className=" px-2 ">
 
-        <form onSubmit={handleLogin}>
-          {!loading && !successful && (
-            <div>
-              
-              <div className="form-group">
-                <label htmlFor="email">Email</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="email"
-                  value={email}
-                  onChange={handleEmail}
-                />
-                {errors.email && <Alert type="error">{errors.email}</Alert>}
-              </div>
+      {!loading && message && (
+        <div className="m-2">
+          <Alert type={successful ? "success" : "error"}>{message}</Alert>
+        </div>
+      )}
 
-              <div className="form-group">
-                <label htmlFor="password">Password</label>
-                <input
-                  type="password"
-                  className="form-control"
-                  name="password"
-                  value={password}
-                  onChange={handlePassword}
-                />
-                {errors.password && (
-                  <Alert type="error">{errors.password}</Alert>
-                )}
-              </div>
+      <form className="!rounded-xl !w-72" onSubmit={handleLogin}>
+        {!loading && !successful && (
+          <div>
 
-              <div className="form-group">
-                <button className="btn btn-primary btn-block">Sign In</button>
-              </div>
+            <div className="w-full px-2">
+              <label htmlFor="email">Email</label>
+              <input
+                type="text"
+                className="w-full box-border"
+                name="email"
+                value={email}
+                onChange={handleEmail}
+              />
+              {errors.email && <Alert type="error">{errors.email}</Alert>}
             </div>
-          )}
 
-          {!loading && message && (
-            <div className="form-group">
-              <Alert type={successful ? "success" : "error"}>{message}</Alert>
+            <div className="w-full px-2">
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                className="w-full box-border"
+                name="password"
+                value={password}
+                onChange={handlePassword}
+              />
+              {errors.password && (
+                <Alert type="error">{errors.password}</Alert>
+              )}
             </div>
-          )}
 
-          {loading && <Loader />}
-        </form>
-      </div>
+            <div className="w-full px-2">
+              <button className="!px-4 !py-2 !bg-blue-600 !text-white !rounded-xl !hover:bg-blue-700 !focus:outline-none !focus:ring-2 !focus:ring-blue-400 !transition-all !shadow-md">Sign in</button>
+            </div>
+
+            <p>Do not have an account? <Link to="/signup">Sign Up</Link></p>
+          </div>
+        )}
+
+        {loading &&
+          <div className="w-full flex justify-around">
+
+            <Loader />
+          </div>
+        }
+      </form>
     </div>
   );
 }

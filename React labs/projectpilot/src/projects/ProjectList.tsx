@@ -21,16 +21,17 @@ function ProjectList({ projects }: ProjectListProps) {
 
     return (
 
-        <div className="row">
+        <div className="grid grid-cols-4 gap-4">
             {
                 projects.map((project) => (
-                    <div className="cols-sm" key={project._id}>
+                    <div className="" key={project._id}>
+
                         {
                             projectBeingEdited === project ?
                                 <ProjectForm project={project} onCancel={cancelEditing} />
                                 : <ProjectCard project={project} onEdit={handleEdit} />
                         }
-                    </div>
+                        </div>
                 ))
             }
 
