@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import AuthService from "../services/auth.service";
-import { isValidEmail } from "../common/email-validations";
 import Alert from "../components/alert.component";
 import type { AxiosResponse } from "axios";
 import Loader from "../components/loader.component";
