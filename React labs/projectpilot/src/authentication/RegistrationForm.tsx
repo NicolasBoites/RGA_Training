@@ -38,14 +38,14 @@ function RegistrationForm() {
   const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    setMessage("");
-    setSuccessful(false);
-    setLoading(true);
-
     const errs = validate();
     setErrors(errs);
 
     if (!isValid(errs)) return;
+
+    setMessage("");
+    setSuccessful(false);
+    setLoading(true);
 
     await AuthService.register(name, email, password)
       .then((response: AxiosResponse) => {
@@ -89,9 +89,7 @@ function RegistrationForm() {
     const trimmedEmail = email.trim();
     if (trimmedEmail.length === 0) {
       validationErrors.email = "The email is required.";
-    } else if (isValidEmail(trimmedEmail)) {
-      console.log("isValidEmail", isValidEmail(trimmedEmail));
-
+    } else if (!isValidEmail(trimmedEmail)) {
       validationErrors.email = "This is not a valid email.";
     }
 

@@ -48,7 +48,6 @@ function LoginForm() {
 
     if (!isValid(errs)) return;
 
-
     setMessage("");
     setSuccessful(false);
     setLoading(true);
