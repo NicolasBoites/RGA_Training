@@ -8,7 +8,12 @@ import { LoggingInterceptor } from './common/interceptor/loggin.interceptors';
 async function bootstrap() {
 
   const app = await NestFactory.create(AppModule, { cors: true });
-  app.enableCors({ origin: true });
+  // app.enableCors({ origin: true });
+  app.enableCors({
+    origin: 'http://localhost:52664', // o el dominio de tu frontend
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true, // si estás usando cookies o auth headers
+  });
 
   // app.useGlobalInterceptors(new TransformInterceptor()); // Comented because there is a problem with NodeJS
 
