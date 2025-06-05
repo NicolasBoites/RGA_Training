@@ -20,7 +20,7 @@ function Headbar() {
         <nav className="flex gap-4 w-full !border-0 m-2">
           {
             isAuthenticated ?
-              <div className="h-full w-full flex justify-between">
+              <div className="h-full w-full flex justify-between items-center !p-2">
                 <div className="flex flex-row">
 
                   <NavLink
@@ -52,12 +52,16 @@ function Headbar() {
                   </NavLink>
                 </div>
 
+
                 <button
                   onClick={handleLogout}
-                  className="!my-2 !bg-neutral-600 !text-white !px-4 !py-2 !rounded-lg !shadow-md !hover:bg-neutral-700 !transition-all !duration-200"
+                  className="!capitalize !bg-neutral-600 !text-white !rounded-lg !h-10 !py-0 !hover:bg-neutral-700 !transition-all !duration-200"
                 >
                   Logout
                 </button>
+
+
+
               </div>
               :
               <>

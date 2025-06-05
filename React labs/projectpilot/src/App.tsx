@@ -19,7 +19,7 @@ function App() {
       <BrowserRouter>
         <Headbar />
 
-        <div className="px-10px pt-10px h-dvh">
+        <div className="px-16 pt-10px h-dvh">
           <Routes>
             <Route path="/" element={isAuthenticated ? <HomePage /> : <LoginPage />} />
             <Route path="/projects" element={isAuthenticated ? <ProjectsPage /> : <LoginPage />} />

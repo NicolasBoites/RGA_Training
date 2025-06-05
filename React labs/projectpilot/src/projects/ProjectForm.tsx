@@ -131,57 +131,64 @@ function ProjectForm(props: ProjectFormProps) {
     };
 
     return (
-        <div>
+        <div className='w-full flex justify-center'>
 
-            <form className="" onSubmit={handlerSubmit} action="">
+            <form className="!rounded-xl !w-96" onSubmit={handlerSubmit} action="">
                 {isPending && <span className="toast">Saving...</span>}
-                <label htmlFor="name">Project Name</label>
-                {errors.name.length > 0 && (
-                    <div className="card error">
-                        <p>{errors.name}</p>
-                    </div>
-                )}
-                <input type="text" name="name" placeholder="enter name"
-                    value={project.name}
-                    onChange={handleChange} />
 
+                <div className="w-full px-2">
 
-                <label htmlFor="description">Project Description</label>
-                {errors.description.length > 0 && (
-                    <div className="card error">
-                        <p>{errors.description}</p>
-                    </div>
-                )}
-                <textarea name="description" placeholder="enter description"
-                    value={project.description}
-                    onChange={handleChange} ></textarea>
+                    <label htmlFor="name">Project Name</label>
+                    {errors.name.length > 0 && (
+                        <div className="card error">
+                            <p>{errors.name}</p>
+                        </div>
+                    )}
+                    <input className="w-full box-border" type="text" name="name" placeholder="enter name"
+                        value={project.name}
+                        onChange={handleChange} />
+                </div>
+                <div className="w-full px-2">
 
+                    <label htmlFor="description">Project Description</label>
+                    {errors.description.length > 0 && (
+                        <div className="card error">
+                            <p>{errors.description}</p>
+                        </div>
+                    )}
+                    <textarea className="w-full box-border" name="description" placeholder="enter description"
+                        value={project.description}
+                        onChange={handleChange} ></textarea>
 
-                <label htmlFor="budget">Project Budget</label>
-                {errors.budget.length > 0 && (
-                    <div className="card error">
-                        <p>{errors.budget}</p>
-                    </div>
-                )}
-                <input type="number" name="budget" placeholder="enter budget"
-                    value={project.budget}
-                    onChange={handleChange} />
+                </div>
+                <div className="w-full px-2">
 
+                    <label htmlFor="budget">Project Budget</label>
+                    {errors.budget.length > 0 && (
+                        <div className="card error">
+                            <p>{errors.budget}</p>
+                        </div>
+                    )}
+                    <input className="w-full box-border" type="number" name="budget" placeholder="enter budget"
+                        value={project.budget}
+                        onChange={handleChange} />
+                </div>
+                <div className="w-full px-2">
 
-                <label htmlFor="isActive">Active?</label>
-                <input type="checkbox" name="isActive"
-                    checked={project.isActive}
-                    onChange={handleChange} />
-
-                <div className="input-group">
-                    <button className="primary bordered medium">{project.isNew ? "Create" : "Save"}</button>
+                    <label htmlFor="isActive">Active?</label>
+                    <input className="w-full box-border" type="checkbox" name="isActive"
+                        checked={project.isActive}
+                        onChange={handleChange} />
+                </div>
+                <div className="w-full flex flex-row">
+                    <button className="!px-4 !py-2 !bg-blue-600 !text-white !rounded-xl !hover:bg-blue-700 !focus:outline-none !focus:ring-2 !focus:ring-blue-400 !transition-all ">{project.isNew ? "Create" : "Save"}</button>
                     <span></span>
                     {
                         project.isNew ? '' :
                             <>
 
-                                <button type="button" className="bordered medium" onClick={handlerCancelClick}>Cancel</button>
-                                <button type="button" className="bordered medium danger" onClick={handlerDeleteClick}>Delete</button>
+                                <button type="button" className="!px-4 !py-2 !bg-red-600 !text-white !rounded-xl !hover:bg-red-700 !focus:outline-none !focus:ring-2 !focus:ring-red-400 !transition-all " onClick={handlerDeleteClick}>Delete</button>
+                                <button type="button" className="!px-4 !py-2 !bg-gray-400 !text-white !rounded-xl !hover:bg-gray-500 !focus:outline-none !focus:ring-2 !focus:ring-gray-400 !transition-all " onClick={handlerCancelClick}>Cancel</button>
                             </>
                     }
                 </div>

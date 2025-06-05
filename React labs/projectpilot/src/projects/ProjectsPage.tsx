@@ -13,6 +13,7 @@ function ProjectsPage() {
     setPage,
     setName,
   } = useProjects();
+
   const debounceTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const debounce = (query: string) => {
@@ -28,7 +29,7 @@ function ProjectsPage() {
 
 
   return (
-    <div className='px-16'>
+    <div className=''>
       <h1>Projects</h1>
       <div className="search-box">
         <input
@@ -45,29 +46,30 @@ function ProjectsPage() {
             <span className="toast">Refreshing...</span>
           )}
           <ProjectList projects={data} />
-          <div className="row">
-            <div className="col-sm-4">Current page: {page + 1}</div>
-            <div className="col-sm-4">
-              <div className="button-group right">
-                <button
-                  className="button "
-                  onClick={() => setPage((oldPage) => oldPage - 1)}
-                  disabled={page === 0}
-                >
-                  Previous
-                </button>
-                <button
-                  className="button"
-                  onClick={() => {
-                    // if (!isPreviousData) {
-                    setPage((oldPage) => oldPage + 1);
-                    // }
-                  }}
-                  disabled={data.length != 10}
-                >
-                  Next
-                </button>
-              </div>
+          <div className="flex justify-around !my-10">
+            <div className="flex justify-around !w-72">
+              <button
+                className="!mx-0 w-full !border-1 !border-slate-300 !rounded-lg "
+                onClick={() => setPage((oldPage) => oldPage - 1)}
+                disabled={page === 0}
+              >
+                Previous
+              </button>
+              <button
+                className="!w-20  !rounded-full !mx-2"
+
+              >{page + 1}</button>
+              <button
+                className="!mx-0 w-full !border-1 !border-slate-300 !rounded-lg "
+                onClick={() => {
+                  // if (!isPreviousData) {
+                  setPage((oldPage) => oldPage + 1);
+                  // }
+                }}
+                disabled={data.length != 10}
+              >
+                Next
+              </button>
             </div>
           </div>
         </>
