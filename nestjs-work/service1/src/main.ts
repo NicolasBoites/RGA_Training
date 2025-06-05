@@ -11,7 +11,7 @@ async function bootstrap() {
   // app.enableCors({ origin: true });
   app.enableCors({
     origin: 'http://localhost:52664', // o el dominio de tu frontend
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    // methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true, // si estás usando cookies o auth headers
   });
 
