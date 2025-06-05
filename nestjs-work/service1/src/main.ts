@@ -7,11 +7,10 @@ import { LoggingInterceptor } from './common/interceptor/loggin.interceptors';
 
 async function bootstrap() {
 
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { cors: true });
   app.enableCors();
 
   // app.useGlobalInterceptors(new TransformInterceptor()); // Comented because there is a problem with NodeJS
-  app.useGlobalInterceptors(new LoggingInterceptor());
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -19,6 +18,8 @@ async function bootstrap() {
       transform: true, // necesario para que @Transform() funcione
     }),
   );
+
+  app.useGlobalInterceptors(new LoggingInterceptor());
 
 
   const config = new DocumentBuilder()
