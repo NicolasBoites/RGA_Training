@@ -7,7 +7,7 @@ import { LoggingInterceptor } from './common/interceptor/loggin.interceptors';
 
 async function bootstrap() {
 
-  const app = await NestFactory.create(AppModule, { cors: true });
+  const app = await NestFactory.create(AppModule);
   // app.enableCors({ origin: true });
   app.enableCors({
     origin: 'http://localhost:52664', // o el dominio de tu frontend
