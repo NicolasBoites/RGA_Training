@@ -78,7 +78,7 @@ const projectAPI = {
         .then(checkStatus)
         .then(parseJSON)
         .then(convertToProjectModels)
-        .catch((error: TypeError) => {
+        .catch(() => {
           throw new Error(
             "There was an error retrieving the projects. Please try again."
           );
@@ -94,7 +94,7 @@ const projectAPI = {
       })
         .then(checkStatus)
         .then(parseJSON)
-        .catch((error: TypeError) => {
+        .catch(() => {
           throw new Error(
             "There was an error updating the project. Please try again."
           );
@@ -120,7 +120,7 @@ const projectAPI = {
       })
         .then(checkStatus)
         .then(parseJSON)
-        .catch((error: TypeError) => {
+        .catch(() => {
           throw new Error(
             "There was an error updating the project. Please try again."
           );
@@ -137,7 +137,7 @@ const projectAPI = {
       })
         .then(checkStatus)
         .then(parseJSON)
-        .catch((error: TypeError) => {
+        .catch(() => {
           throw new Error(
             "There was an error retrieving the projects. Please try again."
           );

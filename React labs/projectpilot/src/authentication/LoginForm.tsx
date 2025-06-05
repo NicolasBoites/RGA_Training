@@ -48,7 +48,7 @@ function LoginForm() {
     setLoading(true);
 
     await AuthService.login(email, password)
-      .then((response: AxiosResponse) => {
+      .then(() => {
         setMessage("Sign in successfully");
         setSuccessful(true);
 
