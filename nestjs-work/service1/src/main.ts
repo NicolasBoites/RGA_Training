@@ -11,8 +11,10 @@ async function bootstrap() {
   // app.enableCors({ origin: true });
   app.enableCors({
     origin: 'http://localhost:52664', // o el dominio de tu frontend
-    // methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true, // si estás usando cookies o auth headers
+    allowedHeaders: 'Content-Type, Accept', // Allowed headers
+
   });
 
   // app.useGlobalInterceptors(new TransformInterceptor()); // Comented because there is a problem with NodeJS
@@ -24,7 +26,7 @@ async function bootstrap() {
     }),
   );
 
-  // app.useGlobalInterceptors(new LoggingInterceptor());
+  app.useGlobalInterceptors(new LoggingInterceptor());
 
 
   const config = new DocumentBuilder()
